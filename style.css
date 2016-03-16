@@ -1,0 +1,33 @@
+#projects {
+  height: 100vh;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0;
+  width: 100%;
+  background: pink;
+  overflow: hidden;
+  transition: height 0.9s ease-in-out;
+}
+
+.slide:nth-child(1) {
+  z-index: 10;
+  background: white;
+}
+
+.slide:nth-child(2) {
+  z-index: 9;
+  background: #bcdfe6;
+}
+
+.slide:nth-child(3) {
+  z-index: 8;
+  background: #5eb0c1;
+}
+
+.active.slide {
+  height: 100%;
+}
