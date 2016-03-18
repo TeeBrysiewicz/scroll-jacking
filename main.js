@@ -1,32 +1,49 @@
 var delta = 0;
 var currentSlideIndex = 0;
-var scrollThreshold = 60;
+var scrollThreshold = 30;
 var slides = $(".slide");
 var numSlides = slides.length;
+var isFinished = false
+
+
 function elementScroll (e) {
+
+
   console.log (Math.abs(delta));
+
+  	// --- Final Slide ---
+  	if (currentSlideIndex == numSlides) {
+		isFinished = true;
 	// --- Scrolling up ---
-	if (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) {	
- 
+	} else if (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) {	
+
 		delta--;
  
 		if ( Math.abs(delta) >= scrollThreshold) {
 		prevSlide();
 		}
+
+		if (window.top == window.self) {
+			console.log("IIIII SEEEE YOUUUUUU");
+			currentSlideIndex = 4;
+			isFinished = false;
+		}
+
 	}
  
 	// --- Scrolling down ---
 	else {
- 
+
 		delta++;
- 
+
 		if (delta >= scrollThreshold) {
 			nextSlide();
 		}
-	}
- 
-	// Prevent page from scrolling
-	return false;
+
+	} 
+
+	return isFinished;
+
 }
  
  
@@ -38,7 +55,7 @@ function showSlide() {
 	slides.each(function(i, slide) {
 		$(slide).toggleClass('active', (i >= currentSlideIndex));
 	});
- 
+
 }
  
  
@@ -59,14 +76,38 @@ function nextSlide() {
  
 	if (currentSlideIndex > numSlides) { 
 		currentSlideIndex = numSlides;
+
+
 	}
- 
+
 	showSlide();
+
+// WORKING
+	// if (currentSlideIndex = numSlides) {
+	// 	elementScroll = 'mousewheel'
+	// } else {
+	// 	showSlide();
+	// }
+
 }
- 
+
+function finalSlide() {
+
+	if (currentSlideIndex = numSlides) {
+		isFinished = true;
+	} else {
+		isFinished = false;
+	}
+
+}
+
 $(window).on({
 	'DOMMouseScroll mousewheel': elementScroll
 });
+
+
+
+
 
 
 
