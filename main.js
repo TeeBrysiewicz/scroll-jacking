@@ -8,12 +8,31 @@ var isFinished = false
 
 function elementScroll (e) {
 
+if (window.top == window.self) {
+	currentSlideIndex == 0
+
+
+}
+
+if (isFinished == true) {
+	if (currentSlideIndex == numSlides) {
+
+		console.log("IIIII SEEEE YOUUUUUU");
+		isFinished = false;
+
+		slides.each(function(i, slide) {
+			$(slide).addClass('active');
+		});
+	}
+}
+
 
   console.log (Math.abs(delta));
 
   	// --- Final Slide ---
   	if (currentSlideIndex == numSlides) {
 		isFinished = true;
+		window.scrollBy(1,0);
 	// --- Scrolling up ---
 	} else if (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) {	
 
@@ -21,12 +40,6 @@ function elementScroll (e) {
  
 		if ( Math.abs(delta) >= scrollThreshold) {
 		prevSlide();
-		}
-
-		if (window.top == window.self) {
-			console.log("IIIII SEEEE YOUUUUUU");
-			currentSlideIndex = 4;
-			isFinished = false;
 		}
 
 	}
@@ -68,6 +81,7 @@ function prevSlide() {
 	}
  
 	showSlide();
+
 }
  
 function nextSlide() {
@@ -76,28 +90,9 @@ function nextSlide() {
  
 	if (currentSlideIndex > numSlides) { 
 		currentSlideIndex = numSlides;
-
-
 	}
 
 	showSlide();
-
-// WORKING
-	// if (currentSlideIndex = numSlides) {
-	// 	elementScroll = 'mousewheel'
-	// } else {
-	// 	showSlide();
-	// }
-
-}
-
-function finalSlide() {
-
-	if (currentSlideIndex = numSlides) {
-		isFinished = true;
-	} else {
-		isFinished = false;
-	}
 
 }
 
