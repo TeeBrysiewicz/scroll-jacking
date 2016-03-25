@@ -3,38 +3,29 @@ var currentSlideIndex = 0;
 var scrollThreshold = 30;
 var slides = $(".slide");
 var numSlides = slides.length;
-var isFinished = false
+var isFinished = false;
+
+  $(window).scroll(function() {
+  	if ($(window).scrollTop() <= 1) {
+  		isFinished = false;
+  		currentSlideIndex = 3;
+
+  		$('#project-2').addClass('active');
+
+  		// $('.slide').each(function(i, slide) {
+  		// 	$(slide).addClass('active', (i >= currentSlideIndex));
+  		// });
+  	};
+  });
 
 
 function elementScroll (e) {
-
-if (window.top == window.self) {
-	currentSlideIndex == 0
-
-
-}
-
-if (isFinished == true) {
-	if (currentSlideIndex == numSlides) {
-
-		console.log("IIIII SEEEE YOUUUUUU");
-		isFinished = false;
-
-		slides.each(function(i, slide) {
-			$(slide).addClass('active');
-		});
-	}
-}
 
 
   console.log (Math.abs(delta));
 
   	// --- Final Slide ---
-  	if (currentSlideIndex == numSlides) {
-		isFinished = true;
-		window.scrollBy(1,0);
-	// --- Scrolling up ---
-	} else if (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) {	
+	if (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) {	
 
 		delta--;
  
@@ -87,7 +78,12 @@ function prevSlide() {
 function nextSlide() {
  
 	currentSlideIndex++;
- 
+   	if (currentSlideIndex == numSlides) {
+		isFinished = true;
+		window.scrollBy(2,0);
+	// --- Scrolling up ---
+	} else 
+	
 	if (currentSlideIndex > numSlides) { 
 		currentSlideIndex = numSlides;
 	}
