@@ -10,7 +10,7 @@
   width: 100%;
   background: pink;
   overflow: hidden;
-  transition: height 1.2s ease-in-out;
+  transition: height 0.9s ease-in-out;
 }
 
 .slide:nth-child(1) {

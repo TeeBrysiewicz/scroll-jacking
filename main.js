@@ -1,6 +1,7 @@
 var delta = 0;
 var currentSlideIndex = 0;
-var scrollThreshold = 30;
+var scrollThreshold = 50
+;
 var slides = $(".slide");
 var numSlides = slides.length;
 var isFinished = false;
@@ -83,7 +84,7 @@ function nextSlide() {
 		window.scrollBy(2,0);
 	// --- Scrolling up ---
 	} else 
-	
+
 	if (currentSlideIndex > numSlides) { 
 		currentSlideIndex = numSlides;
 	}
