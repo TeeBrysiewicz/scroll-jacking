@@ -1,43 +1,43 @@
 var delta = 0;
 var currentSlideIndex = 0;
-var scrollThreshold = 50
-;
+var scrollThreshold = 50;
 var slides = $(".slide");
 var numSlides = slides.length;
-var isFinished = false;
+
+var scrollNormally = false;
+var initializeSlideIndex = true;
 
   $(window).scroll(function() {
+
   	if ($(window).scrollTop() <= 1) {
-  		isFinished = false;
-  		currentSlideIndex = 3;
 
-  		$('#project-2').addClass('active');
+  		if (initializeSlideIndex) {
+  			scrollNormally = false;
+  			currentSlideIndex = 0;
+  		} else {
+  			scrollNormally = false;
+  			currentSlideIndex = 3;
+  			$('#project-2').addClass('active');
+  		}
 
-  		// $('.slide').each(function(i, slide) {
-  		// 	$(slide).addClass('active', (i >= currentSlideIndex));
-  		// });
-  	};
+  	}
+
   });
 
 
 function elementScroll (e) {
 
-
   console.log (Math.abs(delta));
 
-  	// --- Final Slide ---
 	if (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) {	
 
 		delta--;
  
 		if ( Math.abs(delta) >= scrollThreshold) {
-		prevSlide();
+			prevSlide();
 		}
 
-	}
- 
-	// --- Scrolling down ---
-	else {
+	} else {
 
 		delta++;
 
@@ -47,14 +47,13 @@ function elementScroll (e) {
 
 	} 
 
-	return isFinished;
+	return scrollNormally;
 
 }
  
- 
 function showSlide() {
  
-	// reset
+	// Reset
 	delta = 0;
  
 	slides.each(function(i, slide) {
@@ -68,10 +67,6 @@ function prevSlide() {
  
 	currentSlideIndex--;
  
-	if (currentSlideIndex < 0) {
-		currentSlideIndex = 0;
-	}
- 
 	showSlide();
 
 }
@@ -79,15 +74,12 @@ function prevSlide() {
 function nextSlide() {
  
 	currentSlideIndex++;
-   	if (currentSlideIndex == numSlides) {
-		isFinished = true;
-		window.scrollBy(2,0);
-	// --- Scrolling up ---
-	} else 
 
-	if (currentSlideIndex > numSlides) { 
-		currentSlideIndex = numSlides;
-	}
+	// Final Slide
+   	if (currentSlideIndex == numSlides) {
+		scrollNormally = true;
+		initializeSlideIndex = false;
+	} 
 
 	showSlide();
 
@@ -98,21 +90,45 @@ $(window).on({
 });
 
 
-
-
-
-
-
 if (screen.width < 980) { 
 
-	var delta;
-	    dragThreshold = 0.15;// percentage to drag before engaging
-	    dragStart = null;	 // used to determine touch / drag distance
-	    percentage = 0,
-	    target,
-	    previousTarget;
-	 
+
+	if (scrollNormally) {
+
+	} else {
+	var windowHeight = screen.height
+
+	var delta = 0;
+	var dragThreshold = 0.15;	 // percentage to drag before engaging
+	var dragStart = null;		 // used to determine touch / drag distance
+
+	var percentage = null;
+	var target = null;
+	var previousTarget = null;
+
+	// var currentSlideIndex = 0;
+	// var slides = $(".slide");
+	// var numSlides = slides.length;
+
+	// var scrollNormally = false;
+	// var initializeSlideIndex = true;
+
+
 	function touchStart(event) {
+
+		if (currentSlideIndex == (numSlides)) {
+
+			  $(window).scroll(function() {
+
+			  	if ($(window).scrollTop() <= 1) {
+
+			  		currentSlideIndex = 2;
+
+			  	}
+
+			  });
+
+		} else {
 	 
 		if (dragStart !== null) { return; }
 		if (event.originalEvent.touches) { 
@@ -126,13 +142,16 @@ if (screen.width < 980) {
 		target = slides.eq(currentSlideIndex)[0];	
 	 
 		// disable transitions while dragging
-		target.classList.add('no-animation');
-	 
-		previousTarget = slides.eq(currentSlideIndex-1)[0];
-		previousTarget.classList.add('no-animation');
+		target.classList.add("no-animation");
+	
+		// previousTarget = slides.eq(currentSlideIndex-1)[0];
+		previousTarget = slides.eq(currentSlideIndex)[0];
+		previousTarget.classList.add("no-animation");
+
+		}
 	}
 	 
-	function touchMove (event) {
+	function touchMove(event) {
 	 
 		if (dragStart === null) { return; }
 		if (event.originalEvent.touches) { 
@@ -144,28 +163,37 @@ if (screen.width < 980) {
 	 
 		// Going down/next. Animate the height of the target element.
 		if (percentage > 0) {
+
 			target.style.height = (100-(percentage*100))+'%';
+
 			if (previousTarget) { 
-				previousTarget.style.height = ''; 	// reset
+
+				previousTarget.style.height = ''; 	// reset  
+
 			}
 		}
 	 
 		// Going up/prev. Animate the height of the _previous_ element.
 		else if (previousTarget) {
-			previousTarget.style.height = (-percentage*100)+'%';
+
+			previousTarget.style.height = (-percentage*100)+'%'; 		
 			target.style.height = '';	// reset
+
 		}
 	 
 		// Don't drag element. This is important.
 		return false;
 	}
 	 
-	function touchEnd () {
+	function touchEnd() {
 	 
 		dragStart = null;
-		target.classList.remove('no-animation');
+		target.classList.remove("no-animation");
+
 		if (previousTarget) { 
-			previousTarget.classList.remove('no-animation'); 
+
+			previousTarget.classList.remove("no-animation"); 
+
 		}
 	 
 		if (percentage >= dragThreshold) {
@@ -187,6 +215,8 @@ if (screen.width < 980) {
 		'touchmove': touchMove,
 		'touchend': touchEnd
 	});
+
+}
 
 }
 
